@@ -1,0 +1,3 @@
+awscli
+ansible-tower-cli
+pytz==2021.1

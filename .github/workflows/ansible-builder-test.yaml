@@ -1,0 +1,25 @@
+---
+
+name: Ansible Builder Test
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - execution-environment/*
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: redhat-cop/github-actions/s2i@v3
+        with:
+          path: execution-environment
+          base: quay.io/ansible/ansible-runner:stable-2.9-devel
+          output_image: "quay.io/pbarfuss/ansible-builder-test:${{ github.sha }}"
+          image_push_registry: quay.io
+          image_push_username: ${{ secrets.QUAY_RESOURCE_DISPATCHER_USERNAME }}
+          image_push_password: ${{ secrets.QUAY_RESOURCE_DISPATCHER_PASSWORD }}
+          image_tags: main

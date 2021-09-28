@@ -1,0 +1,40 @@
+---
+
+name: Ansible Builder Test
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - execution-environment/**/*
+
+jobs:
+  build:
+    name: Build and push image
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build Container
+        id: build-image
+        uses: redhat-actions/buildah-build@v2
+        with:
+          image: ansible-builder-test
+          tags: latest ${{ github.sha }}
+          context: ./execution-environment/context/
+          containerfiles: |
+            ./Containerfile
+
+      - name: Push To quay.io
+        id: push-to-quay
+        uses: redhat-actions/push-to-registry@v2
+        with:
+          image: ${{ steps.build-image.outputs.image }}
+          tags: ${{ steps.build-image.outputs.tags }}
+          registry: quay.io/pbarfuss
+          username: ${{ secrets.QUAY_USERNAME }}
+          password: ${{ secrets.QUAY_PASSWORD }}

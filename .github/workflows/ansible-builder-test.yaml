@@ -6,8 +6,9 @@ on:
   push:
     branches:
       - main
+      - develop
     paths:
-      - execution-environment/*
+      - execution-environment/**/*
 
 jobs:
   build:

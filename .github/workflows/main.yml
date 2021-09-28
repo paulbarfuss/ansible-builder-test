@@ -28,7 +28,6 @@ jobs:
           context: ./execution-environment/context/
           containerfiles: |
             ./Containerfile
-
       - name: Push To quay.io
         id: push-to-quay
         uses: redhat-actions/push-to-registry@v2

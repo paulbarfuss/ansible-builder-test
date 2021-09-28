@@ -13,7 +13,7 @@ Run the following to build and push the image using your own container repo and 
 ```bash
 IMAGE_REPO=quay.io/pbarfuss
 IMAGE_NAME=ansible-builder-test
-IMAGE_TAG=v0.0.1
+IMAGE_TAG=v0.0.4
 
 ansible-builder build -t ${IMAGE_REPO}/${IMAGE_NAME}:${IMAGE_TAG} -v3
 podman push ${IMAGE_REPO}/${IMAGE_NAME}:${IMAGE_TAG}
@@ -21,4 +21,7 @@ podman push ${IMAGE_REPO}/${IMAGE_NAME}:${IMAGE_TAG}
 
 ### Inspect image
 
+```bash
+podman run -it ${IMAGE_REPO}/${IMAGE_NAME}:${IMAGE_TAG} bash
+```
 

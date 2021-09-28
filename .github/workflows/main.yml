@@ -25,8 +25,9 @@ jobs:
         with:
           image: ansible-builder-test
           tags: latest ${{ github.sha }}
+          context: ./execution-environment/context/
           containerfiles: |
-            ./execution-environment/context/Containerfile
+            ./Containerfile
 
       - name: Push To quay.io
         id: push-to-quay

@@ -1,0 +1,25 @@
+---
+
+name: Ansible Builder Test
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - execution-environment/*
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: redhat-cop/github-actions/s2i@v3
+        with:
+          path: resource-dispatcher
+          base: registry.access.redhat.com/ubi8/python-38:latest
+          output_image: "quay.io/pbarfuss/ansible-builder-test:${{ github.sha }}"
+          image_push_registry: quay.io
+          image_push_username: ${{ secrets.QUAY_RESOURCE_DISPATCHER_USERNAME }}
+          image_push_password: ${{ secrets.QUAY_RESOURCE_DISPATCHER_PASSWORD }}
+          image_tags: master
